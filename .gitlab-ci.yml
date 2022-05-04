@@ -1,0 +1,45 @@
+image: node:14
+
+cache:
+    paths:
+        - node_modules/
+        - .next/
+
+stages:
+    - install
+    - build
+    - deploy
+
+node_modules:
+    stage: install
+    script:
+        - yarn install
+    artifacts:
+        paths:
+            - node_modules
+    except:
+        - triggers
+        - tags
+
+build:
+    stage: build
+    script:
+        - yarn build
+    artifacts:
+        paths:
+            - .next
+
+deploy:
+    stage: deploy
+    only: 
+        - main
+        - stable
+        - /^release-.*$/
+    image: docker:git # use simply git docker image
+    services:
+        - docker:dind
+    script:
+        - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
+        - docker build -t registry.gitlab.com/$CI_PROJECT_PATH .
+        - docker tag registry.gitlab.com/$CI_PROJECT_PATH registry.gitlab.com/$CI_PROJECT_PATH:$CI_COMMIT_REF_NAME
+        - docker push registry.gitlab.com/$CI_PROJECT_PATH:$CI_COMMIT_REF_NAME

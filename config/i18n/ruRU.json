@@ -1,0 +1,11 @@
+{
+  "TEST_MESSAGE_PRIMARY": "Тестовая информация",
+  "TEST_MESSAGE_DANGER": "Тестовая ошибка",
+  "TEST_MESSAGE_SUCCESS": "Тестовый результат",
+  "TEST_MESSAGE_WARNING": "Тестовое предупреждение",
+
+  "SERVER_ERROR": "Ошибка сервера",
+  "SERVER_SUCCESS": "Успешный ответ сервера",
+
+  "FRONTEND_REQUEST_HOSTUNREACHABLE": "Сервер недоступен."
+}
